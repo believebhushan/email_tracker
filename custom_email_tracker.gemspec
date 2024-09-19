@@ -33,6 +33,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Add dependencies for the gem
-  spec.add_dependency "rails", ">= 5.0"
+  spec.add_dependency 'rails', '>= 5.0', '< 8.0'
   spec.add_dependency "nokogiri", ">= 1.11"  # For parsing and modifying email HTML content
 end
