@@ -1,6 +1,5 @@
-Certainly! Here’s an updated README that includes an explanation of the `create_migration_file` method, usage instructions for the `track_new` method, and additional setup steps:
 
----
+![CustomEmailTracker Logo](https://repository-images.githubusercontent.com/859835840/76fa9ee4-f229-4ec7-bf32-450e756a1095)
 
 # CustomEmailTracker
 
