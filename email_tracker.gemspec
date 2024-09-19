@@ -3,7 +3,7 @@
 require_relative "lib/email_tracker/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "email_tracker"
+  spec.name          = "custom_email_tracker"
   spec.version       = EmailTracker::VERSION
   spec.authors       = ["Bharat Bhushan"]
   spec.email         = ["mechathrust@gmail.com"]  # Replace with your email
