@@ -7,6 +7,7 @@ Welcome to the CustomEmailTracker gem! This gem provides email tracking function
 
 ## Installation
 
+
 Add the gem to your application's Gemfile:
 
 ```ruby
