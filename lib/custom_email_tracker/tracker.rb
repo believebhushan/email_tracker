@@ -1,4 +1,4 @@
-module EmailTracker
+module CustomEmailTracker
   module Tracker
 
   end

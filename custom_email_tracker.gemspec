@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/email_tracker/version"
+require_relative "lib/custom_email_tracker/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "custom_email_tracker"
-  spec.version       = EmailTracker::VERSION
+  spec.version       = CustomEmailTracker::VERSION
   spec.authors       = ["Bharat Bhushan"]
   spec.email         = ["mechathrust@gmail.com"]  # Replace with your email
 

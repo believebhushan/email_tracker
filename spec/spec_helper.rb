@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "email_tracker"
+require "custom_email_tracker"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

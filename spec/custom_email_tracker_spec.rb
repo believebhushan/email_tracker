@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe EmailTracker do
+RSpec.describe CustomEmailTracker do
   it "has a version number" do
-    expect(EmailTracker::VERSION).not_to be nil
+    expect(CustomEmailTracker::VERSION).not_to be nil
   end
 
   it "does something useful" do

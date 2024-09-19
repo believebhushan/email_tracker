@@ -1,8 +1,8 @@
-require "email_tracker/version"
-require "email_tracker/tracker"
-require 'email_tracker/engine'
+require "custom_email_tracker/version"
+require "custom_email_tracker/tracker"
+require 'custom_email_tracker/engine'
 
-module EmailTracker
+module CustomEmailTracker
 
   class MigrationCreator
     def self.create_migration_file

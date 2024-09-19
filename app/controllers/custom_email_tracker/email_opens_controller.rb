@@ -1,4 +1,4 @@
-module EmailTracker
+module CustomEmailTracker
   class EmailOpensController < ActionController::Base
     def track_open
       token = params[:token]
