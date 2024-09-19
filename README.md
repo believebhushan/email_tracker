@@ -1,34 +1,132 @@
+Certainly! Here’s an updated README that includes an explanation of the `create_migration_file` method, usage instructions for the `track_new` method, and additional setup steps:
+
+---
+
 # CustomEmailTracker
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/custom_email_tracker`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to the CustomEmailTracker gem! This gem provides email tracking functionality for Rails applications, allowing you to track when emails are opened and when links within emails are clicked. It integrates seamlessly with ActionMailer to enhance your email interactions and analytics.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add the gem to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem 'custom_email_tracker', '~> 0.1.2'
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+Then run:
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+```bash
+$ bundle install
+```
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+Or install it directly using:
+
+```bash
+$ gem install custom_email_tracker -v '0.1.2'
+```
+
+## Setup
+
+### 1. Run the Migration
+
+First, ensure your Rails console is running:
+
+```bash
+$ rails c
+```
+
+Then, create the necessary migration file for your database and update your mailer views by running:
+
+```ruby
+CustomEmailTracker::MigrationCreator.create_migration_file
+```
+
+This method will:
+- Generate a migration file to create a `tracked_emails` table in your database. This table will store information about tracked emails including tokens, timestamps, and other relevant details.
+- Append necessary tracking code to your mailer layout file (`mailer.html.erb`) to insert a tracking pixel in your email views. If this file does not exist, you will need to manually add the provided content.
+
+After running the migration creator, apply the migration to your database:
+
+```bash
+$ rails db:migrate
+```
+
+### 2. Configure Your Environment
+
+Add the following configurations to your environment files:
+
+#### Development
+
+In `config/environments/development.rb`:
+
+```ruby
+Rails.application.routes.default_url_options[:host] = 'localhost'
+Rails.application.routes.default_url_options[:port] = PORT
+```
+
+#### Production
+
+In `config/environments/production.rb`:
+
+```ruby
+Rails.application.routes.default_url_options[:host] = 'domain-name.com'
+```
+
+Replace `'domain-name.com'` with your actual domain name.
 
 ## Usage
 
-TODO: Write usage instructions here
+### Tracking Email Openings
+
+1. **Add Tracking Pixel to Emails:**
+
+   If your mailer layout file (`mailer.html.erb`) exists, the tracking code should already be appended. If it does not exist, you need to manually add the following code to your mailer views where you want to track email openings:
+
+   ```erb
+   <% unless @avoid_tracking %>
+     <%
+     new_tracked_email = TrackedEmail.track_new(message.to.first, message.delivery_handler, action_name)
+     %>
+     <% if new_tracked_email.present? %>
+         <%= new_tracked_email[:image] %>
+     <% end %>
+   <% end %>
+   ```
+
+2. **Handling Missing Mailer Layout File:**
+
+   If your `mailer.html.erb` file does not exist, you can create one in `app/views/layouts/` and add the tracking code snippet mentioned above.
+
+### Tracking Link Clicks
+
+Ensure that all links in your emails are wrapped with the tracking helper:
+
+```erb
+<%= custom_email_tracker_link_to 'Link Text', link_url %>
+```
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run:
+
+```bash
+$ bundle exec rake install
+```
+
+To release a new version, update the version number in `lib/custom_email_tracker/version.rb`, and then run:
+
+```bash
+$ bundle exec rake release
+```
+
+This will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/custom_email_tracker. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/custom_email_tracker/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at [https://github.com/believebhushan/email_tracker](https://github.com/believebhushan/email_tracker). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/believebhushan/email_tracker/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -36,4 +134,23 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the CustomEmailTracker project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/custom_email_tracker/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the CustomEmailTracker project's codebases, issue trackers, chat rooms, and mailing lists is expected to follow the [code of conduct](https://github.com/believebhushan/email_tracker/blob/master/CODE_OF_CONDUCT.md).
+
+---
+
+### Explanation of `track_new` Method
+
+The `track_new` method is designed to manage the tracking of email openings. Here’s how it works:
+
+1. **Creating or Finding a Tracked Email:**
+   The method looks for an existing `TrackedEmail` record with the provided token. If the token is present and a record with this token is found, it returns the tracking pixel and status indicating that the record already exists.
+
+2. **Creating a New Tracked Email:**
+   If no record with the given token is found, a new `TrackedEmail` record is created with the provided email address, mailer class, and action. The tracking pixel is generated and returned.
+
+3. **Handling Missing Tokens:**
+   If no token is provided, a new `TrackedEmail` is created with the provided email and action details, and a tracking pixel is returned.
+
+The `generate_tracking_pixel` method is used to generate an invisible tracking pixel embedded in the email body. The pixel's URL includes the unique token, allowing the application to track when the email is opened.
+
+Feel free to adjust the content as needed!
