@@ -1,5 +1,6 @@
 
 ![CustomEmailTracker Logo](https://repository-images.githubusercontent.com/859835840/76fa9ee4-f229-4ec7-bf32-450e756a1095)
+![View at Ruby Gens](https://rubygems.org/gems/custom_email_tracker)
 
 # CustomEmailTracker
 
