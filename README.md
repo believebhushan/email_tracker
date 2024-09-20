@@ -98,14 +98,6 @@ Replace `'domain-name.com'` with your actual domain name.
 
    If your `mailer.html.erb` file does not exist, you can create one in `app/views/layouts/` and add the tracking code snippet mentioned above.
 
-### Tracking Link Clicks
-
-Ensure that all links in your emails are wrapped with the tracking helper:
-
-```erb
-<%= custom_email_tracker_link_to 'Link Text', link_url %>
-```
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
